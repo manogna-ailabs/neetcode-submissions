@@ -1,0 +1,20 @@
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        nums.sort(reverse=True)
+        total_sum = sum(nums)
+        if total_sum % 2 != 0:
+            return False
+        target = total_sum // 2
+        dp = {}
+        def dfs(i, curr_sum):
+            if curr_sum == target:
+                return True
+            if i == len(nums):
+                return False
+            if curr_sum > target:
+                return False
+            if (i, curr_sum) in dp:
+                return dp[(i, curr_sum)]
+            dp[(i, curr_sum)] = dfs(i+1, curr_sum+nums[i]) or dfs(i+1, curr_sum)
+            return dp[(i, curr_sum)]
+        return dfs(0, 0)
